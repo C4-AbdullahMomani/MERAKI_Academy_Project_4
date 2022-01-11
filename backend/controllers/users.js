@@ -81,4 +81,22 @@ const getUserByFirstName = (req, res) => {
     });
 };
 
-module.exports = { createNewUser, getUserByFirstName };
+//this function get user by user id
+const getUserByUserId = (req, res) => {
+  const userId = req.params.id;
+
+  userModel.findById({ _id: userId }).then((user) => {
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `The User Not Found`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+
+      user: user,
+    });
+  });
+};
+module.exports = { createNewUser, getUserByFirstName, getUserByUserId };
