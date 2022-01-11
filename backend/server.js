@@ -1,7 +1,8 @@
 const express = require("express");
 const postRouter = require("./routes/posts"); //import post router
-const usersRouter=require("./routes/users")
-const loginRouter = require("./routes/login");
+const usersRouter = require("./routes/users");//import users router
+const loginRouter = require("./routes/login");//import login router
+const roleRouter = require("./routes/role");//import role router
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
@@ -11,9 +12,10 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("/posts",postRouter)
-app.use("/users",usersRouter)
+app.use("/posts", postRouter);
+app.use("/users", usersRouter);
 app.use("/login", loginRouter);
+app.use("/role", roleRouter);
 const PORT = 5000;
 
 app.listen(PORT, () => {
