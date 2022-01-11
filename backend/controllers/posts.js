@@ -150,8 +150,8 @@ const deletePostById = (req, res) => {
 //this function to create new comment
 const createNewComment = (req, res) => {
   const postId = req.params.id;
-  const { comment, commenter } = req.body;
-  const newComment = new commentModel({ comment, commenter });
+  const { comment } = req.body;
+  const newComment = new commentModel({ comment, commenter: req.token.userId });
   newComment
     .save()
 
