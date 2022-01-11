@@ -8,13 +8,28 @@ const createNewConversation = (req, res) => {
   newConversation
     .save()
     .then((result) => {
-      res
-        .status(201)
-        .json({
-          success: true,
-          conversationId: result._id,
-          conversation: result,
-        });
+      res.status(201).json({
+        success: true,
+        conversationId: result._id,
+        conversation: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+};
+
+//this function to get all conversation included user id by user id
+
+const getConversationByUserId = (req, res) => {
+  userId = req.params.id;
+  conversationModel
+    .find({ members: { $in: [userId] } })
+    .then((conversation) => {
+      res.status(200).json({
+        success: true,
+        conversation: conversation,
+      });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -23,4 +38,5 @@ const createNewConversation = (req, res) => {
 
 module.exports = {
   createNewConversation,
+  getConversationByUserId,
 };

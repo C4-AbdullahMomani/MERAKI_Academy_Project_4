@@ -1,6 +1,6 @@
 const express = require("express");
-const { createNewConversation } = require("../controllers/conversation");
+const { createNewConversation,getConversationByUserId } = require("../controllers/conversation");
 const conversationRouter = express.Router();
 conversationRouter.post("/",createNewConversation)
-
+conversationRouter.get("/:id",getConversationByUserId)
 module.exports = conversationRouter;
