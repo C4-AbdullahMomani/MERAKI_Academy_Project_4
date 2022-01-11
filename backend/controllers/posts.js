@@ -58,4 +58,34 @@ const getAllPosts = (req, res) => {
       });
     });
 };
-module.exports = { createNewPost, getAllPosts };
+
+// this function get the post by AuthorId
+const getAllPostsByAuthorId = (req, res) => {
+  let authorId = req.params.id;
+  postsSchema
+    .find({ author: authorId })
+    .populate("author", "firstName lastName")
+    .then((posts) => {
+      if (posts.length) {
+        res.status(200).json({
+          success: true,
+          message: `All the posts By This User`,
+
+          posts: posts,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: `No Posts Yet`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+      });
+    });
+};
+
+module.exports = { createNewPost, getAllPosts, getAllPostsByAuthorId };
