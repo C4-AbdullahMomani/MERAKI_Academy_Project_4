@@ -1,5 +1,5 @@
 const express = require("express");
 postRouter = express.Router();
-const {} = require("../controllers/posts");
-
+const { createNewPost} = require("../controllers/posts");
+postRouter.post("/", createNewPost)
 module.exports = postRouter;
