@@ -1,6 +1,6 @@
 const postsSchema = require("../database/models/postSchema");
 const userModel = require("../database/models/userSchema");
-
+const commentModel = require("../database/models/commentSchema");
 // this function to create new post
 const createNewPost = (req, res) => {
   const { author, description, image, video, comments } = req.body;
@@ -35,6 +35,7 @@ const getAllPosts = (req, res) => {
   postsSchema
     .find({})
     .populate("author")
+    .populate({ path: "comments", populate: "commenter" })
     .then((posts) => {
       if (posts.length) {
         res.status(200).json({
@@ -146,10 +147,44 @@ const deletePostById = (req, res) => {
     });
 };
 
+//this function to create new comment
+const createNewComment = (req, res) => {
+  const postId = req.params.id;
+  const { comment, commenter } = req.body;
+  const newComment = new commentModel({ comment, commenter });
+  newComment
+    .save()
+
+    .then((result) => {
+      postsSchema
+        .updateOne({ _id: postId }, { $push: { comments: result._id } })
+        .then(() => {
+          res.status(201).json({
+            success: true,
+            message: `The new comment added`,
+            comment: result,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            success: false,
+            message: `Server Error`,
+          });
+        });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+      });
+    });
+};
+
 module.exports = {
   createNewPost,
   getAllPosts,
   getAllPostsByAuthorId,
   updatePostByAuthorId,
   deletePostById,
+  createNewComment,
 };
