@@ -6,7 +6,8 @@ const {
   getAllPostsByAuthorId,
   updatePostByAuthorId,
   deletePostById,
-  createNewComment
+  createNewComment,
+  updatePostLikes
 } = require("../controllers/posts");
 const { post } = require("./conversation");
 
@@ -19,4 +20,5 @@ postRouter.put("/:id", updatePostByAuthorId);
 postRouter.delete("/:id", deletePostById);
 postRouter.post("/:id/comments",authentication,
 authorization("CREATE_COMMENTS"),createNewComment)
+postRouter.put("/:id/likes",updatePostLikes)
 module.exports = postRouter;

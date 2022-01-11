@@ -10,6 +10,7 @@ const createNewPost = (req, res) => {
     image,
     video,
     comments,
+    likes: 0,
   });
   newPost
     .save()
@@ -180,6 +181,37 @@ const createNewComment = (req, res) => {
     });
 };
 
+//this function to update the likes number ////=>(send in req.body the old number added to 1)
+const updatePostLikes = (req, res) => {
+  const postId = req.params.id;
+
+  postsSchema
+    .findOneAndUpdate(
+      { _id: postId },
+      { $set: { likes: req.body.likes } },
+      { new: true }
+    )
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `No Posts Found`,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: `The Post Updated successfully`,
+        post: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+      });
+    });
+};
+
 module.exports = {
   createNewPost,
   getAllPosts,
@@ -187,4 +219,5 @@ module.exports = {
   updatePostByAuthorId,
   deletePostById,
   createNewComment,
+  updatePostLikes,
 };
