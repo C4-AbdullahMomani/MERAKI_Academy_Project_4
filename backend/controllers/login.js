@@ -39,7 +39,7 @@ const login = (req, res) => {
           success: true,
           message: `Valid login credentials`,
           token: token,
-          userInformation:result,
+          userInformation: result,
         });
       } catch (error) {
         throw new Error(error.message);

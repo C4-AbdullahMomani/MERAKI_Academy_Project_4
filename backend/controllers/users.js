@@ -52,30 +52,33 @@ const createNewUser = (req, res) => {
 };
 
 const getUserByFirstName = (req, res) => {
-  const  firstName = req.params.firstName;
+  const firstName = req.params.firstName;
   console.log(firstName);
-  userModel.find({ firstName: firstName }).populate("role").then((result) => {
-      if(result.length){
-          
-          console.log(result);
+  userModel
+    .find({ firstName: firstName })
+    .populate("role")
+    .then((result) => {
+      if (result.length) {
+        console.log(result);
         res.status(200).json({
           success: true,
-    
+
           user: result,
         });
-      }
-      else {
+      } else {
         res.status(200).json({
           success: false,
           message: `No User with this name`,
-        });}
-  }).catch((err)=>{
+        });
+      }
+    })
+    .catch((err) => {
       res.json(500).json({
         success: false,
         message: `Server Error`,
         err: err,
-      })
-  })
+      });
+    });
 };
 
 module.exports = { createNewUser, getUserByFirstName };
