@@ -88,4 +88,42 @@ const getAllPostsByAuthorId = (req, res) => {
     });
 };
 
-module.exports = { createNewPost, getAllPosts, getAllPostsByAuthorId };
+// this function to update post by author Id
+
+const updatePostByAuthorId = (req, res) => {
+  userId = req.params.id;
+  
+  const { description, image, video } = req.body;
+  postsSchema
+    .findOneAndUpdate(
+      { author : userId},
+      { $set: { description, image, video } },
+      { new: true }
+    )
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `No Posts Found`,
+        });
+      }
+res.status(200).json({
+  success: true,
+  message: `The Post Updated successfully`,
+  post:result
+})
+    }).catch((err) => {
+      
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+      });
+    });
+};
+
+module.exports = {
+  createNewPost,
+  getAllPosts,
+  getAllPostsByAuthorId,
+  updatePostByAuthorId,
+};
