@@ -106,12 +106,12 @@ function Register() {
                     .catch((err) => {
                       setMessage(err.response.data.message);
                     })
-                : setMessage("Error");
+                : setMessage("Error happened while register, please try again");
             }}
           >
             Register
           </button>{" "}
-          <p>{success ? message : ""}</p>
+          <p style={{color:"white"}}>{success ? message : ""}</p>
         </div>
       </div>
     </>
