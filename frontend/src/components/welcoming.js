@@ -23,7 +23,7 @@ function Navigate() {
           Login
         </Link>
         <Link
-          to="/login"
+          to="/users"
           style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
         >
           Register
