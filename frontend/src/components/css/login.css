@@ -1,0 +1,15 @@
+.login{
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 50%;
+    
+}
+.login input{
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+}

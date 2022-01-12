@@ -1,17 +1,35 @@
 import React, { useState, createContext, useEffect } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import "./css/welcome.css"
-
+import LogIn from "./login";
+import "./css/welcome.css";
 
 function Welcome() {
   return (
     <div className="welcome">
-      <h1>Welcome To App</h1>
-    
+      <Navigate />
+      <div> </div>
     </div>
   );
 }
-function Navigate(){
-
+function Navigate() {
+  return (
+    <>
+      <div className="welcomeNavigate">
+        {" "}
+        <Link
+          to="/login"
+          style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
+        >
+          Login
+        </Link>
+        <Link
+          to="/login"
+          style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
+        >
+          Register
+        </Link>
+      </div>
+    </>
+  );
 }
 export default Welcome;

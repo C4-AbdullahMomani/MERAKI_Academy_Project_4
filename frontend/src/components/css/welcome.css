@@ -1,4 +1,17 @@
 .welcome{
     text-align: left;
     background-color:cadetblue;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content:space-between;
 }
+
+.welcomeNavigate{
+    display: flex;
+    height: 50px;
+    gap: 20px;
+    padding-top: 15px;
+    padding-left: 10px;
+}
+
