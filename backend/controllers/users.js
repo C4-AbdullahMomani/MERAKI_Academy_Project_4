@@ -85,18 +85,87 @@ const getUserByFirstName = (req, res) => {
 const getUserByUserId = (req, res) => {
   const userId = req.params.id;
 
-  userModel.findById({ _id: userId }).then((user) => {
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: `The User Not Found`,
-      });
-    }
-    res.status(200).json({
-      success: true,
+  userModel
+    .findById({ _id: userId })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: `The User Not Found`,
+        });
+      }
+      res.status(200).json({
+        success: true,
 
-      user: user,
+        user: user,
+      });
+    })
+    .catch((err) => {
+      res.json(500).json({
+        success: false,
+        message: `Server Error`,
+        err: err,
+      });
     });
-  });
 };
-module.exports = { createNewUser, getUserByFirstName, getUserByUserId };
+
+//this function get all users
+const getAllUsers = (req, res) => {
+  userModel
+    .find({})
+    .then((users) => {
+      if (!users) {
+        res.status(200).json({
+          success: true,
+          message: "No Users Yet",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        users: users,
+      });
+    })
+    .catch((err) => {
+      res.json(500).json({
+        success: false,
+        message: `Server Error`,
+        err: err,
+      });
+    });
+};
+
+//this function update the user followers
+const updateUserFollowing = (req, res) => {
+  userId = req.params.id;
+  userModel
+    .findOneAndUpdate(
+      { _id: userId },
+      { $push: { following: req.body.follower } },
+      { new: true }
+    )
+    .then((user) => {
+      if (!user) {
+        res.status(202).json({
+          success: true,
+          message: "No Users Yet",
+        });
+      }
+      res
+        .status(202)
+        .json({ success: true, message: "updated success", user: user });
+    })
+    .catch((err) => {
+      res.json(500).json({
+        success: false,
+        message: `Server Error`,
+        err: err,
+      });
+    });
+};
+module.exports = {
+  createNewUser,
+  getUserByFirstName,
+  getUserByUserId,
+  getAllUsers,
+  updateUserFollowing,
+};
