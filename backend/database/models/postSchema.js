@@ -4,7 +4,7 @@ const postsSchema = new mongoose.Schema(
     author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     description: { type: String },
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    likes:{type:Number},
+    likes: { type: Number },
     image: { type: String },
     video: { type: String },
   },
