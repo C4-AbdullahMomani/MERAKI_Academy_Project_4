@@ -19,7 +19,7 @@ function LogIn() {
         <div style={{ height: "175px" }}></div>
         <div>
           <h2 style={{ color: "white", textDecoration: "underLine" }}>Login</h2>
-          <input
+          <input type={"email"}
             placeholder="EMAIL"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -27,7 +27,7 @@ function LogIn() {
           />
           <br />
           <br />
-          <input
+          <input type={"password"}
             placeholder="Password"
             onChange={(e) => {
               setPassWord(e.target.value);

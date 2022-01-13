@@ -14,13 +14,15 @@ function Register() {
   const [message, setMessage] = useState("");
   const [role, setRole] = useState("61dcdf48b149561499f8fb85");
   console.log(image);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       <div className="Register">
         <div>
-        <div style={{height:"100px"}}></div>
-        <h2 style={{color:"white",textDecoration:"underLine"}}>Register</h2>
+          <div style={{ height: "100px" }}></div>
+          <h2 style={{ color: "white", textDecoration: "underLine" }}>
+            Register
+          </h2>
           <input
             type={"text"}
             placeholder="First Name"
@@ -30,7 +32,6 @@ function Register() {
           />
           <br />
           <br />
-          
           <input
             type={"text"}
             placeholder="Last Name"
@@ -90,7 +91,7 @@ function Register() {
                       role: role,
                     })
                     .then((response) => {
-                        console.log(response);
+                      console.log(response);
                       setMessage("The user has been created successfully");
                       setFirstName("");
                       setLastName("");
@@ -98,10 +99,9 @@ function Register() {
                       setPassWord("");
                       setCountry("");
                       setImage("");
-                      setTimeout(()=>{
-                        navigate("/login")
-                      },3000)
-                      
+                      setTimeout(() => {
+                        navigate("/login");
+                      }, 3000);
                     })
                     .catch((err) => {
                       setMessage(err.response.data.message);
@@ -111,7 +111,7 @@ function Register() {
           >
             Register
           </button>{" "}
-          <p style={{color:"white"}}>{success ? message : ""}</p>
+          <p style={{ color: "white" }}>{success ? message : ""}</p>
         </div>
       </div>
     </>

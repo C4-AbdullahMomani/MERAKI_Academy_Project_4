@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import LogIn from "./login";
+import {  Link, useNavigate } from "react-router-dom";
+import HomePost from "./homePost";
 import "./css/Home.css";
 
 function Home() {
@@ -20,7 +20,7 @@ function Home() {
           <Navigate />
         </div>
       </div>
-      <div className="posts"> </div>
+      <div className="posts"> <HomePost/></div>
       <div className="users">
         <button
           onClick={() => {

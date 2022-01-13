@@ -6,6 +6,7 @@ import Welcome from "./components/welcoming";
 import LogIn from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogIn, setIsLogIn] = useState(localStorage.getItem("isLogIn"));
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/home" element={<Home />} />
+        
         <Route
           path="/login"
           element={<LogIn token={setToken} isLogIn={setIsLogIn} />}
