@@ -20,9 +20,9 @@
 .Register button {
   width: 410px;
   height: 35px;
-  color: "white";
+  color: white;
   background-color: #4b93bf;
-  cursor: "pointer";
+  cursor: pointer;
   border-radius: 10px;
   color: white;
 }

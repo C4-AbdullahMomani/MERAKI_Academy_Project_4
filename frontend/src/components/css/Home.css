@@ -1,0 +1,56 @@
+.home{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.information{
+width: 25%;
+background-color: #171C26;
+height: 800px;
+border-radius: 10px;
+display: flex;
+flex-direction: column;
+align-items: center;
+
+}
+.top {
+    display: flex;
+flex-direction: column;
+align-items: center;
+    border-bottom: 2px solid #586673;
+   
+}
+.information img{
+    margin-top: 30px;
+    border-radius: 50%;
+    max-width: 75%;
+    max-height: 75%;
+    /* width: 150px;
+    height: 150px; */
+    
+}
+.informationNavigate{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    gap: 15px;
+}
+.link{
+    width: 200px;
+    text-align: center;
+    border-bottom: 2px solid #586673;
+}
+.link:hover{
+background-color:#586673 ;
+
+}
+.posts{
+    width: 50%;
+    background-color: #AEB5BF;
+    border-radius: 10px;
+}
+.users{
+    width: 25%;
+    background-color: #586673;
+    border-radius: 10px;
+}

@@ -11,6 +11,7 @@ function LogIn() {
   const [success, setSuccess] = useState();
   const [token, setToken] = useState("");
   const [isLogIn, setIsLogIn] = useState(false);
+  const navigate=useNavigate()
   return (
     <>
       <div className="login">
@@ -47,7 +48,7 @@ function LogIn() {
               setIsLogIn(localStorage.getItem('isLogIn'));
               localStorage.setItem('token',response.data.token)
               setToken(localStorage.getItem('token'));
-              setMessage("login successfuly");
+              navigate("/home")
               
             })
             .catch((err) => {
