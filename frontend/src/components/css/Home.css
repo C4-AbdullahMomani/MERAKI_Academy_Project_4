@@ -10,7 +10,7 @@
 .information{
     width: 25%;
     
-background-color: #171C26;
+background-color: #0D0D0D;
 
 border-radius: 10px;
 display: flex;
@@ -54,7 +54,7 @@ background-color:#586673 ;
 /* home middle screen content css */
 .posts{
     width: 50%;
-    background-color: #AEB5BF;
+    background-color: white;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -62,7 +62,7 @@ background-color:#586673 ;
 }
 .homePost{
     
-    background-color: #AEB5BF;
+    background-color: white;
     border-radius: 10px;
     width: 100%;
     
@@ -118,7 +118,7 @@ background-color:#586673 ;
 /* home Right screen content css */
 .users{
     width: 25%;
-    background-color: #586673;
+    background-color: white;
     border-radius: 10px;
     display: flex;
 flex-direction: column;
