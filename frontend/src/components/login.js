@@ -4,13 +4,15 @@ import Navigate from "../components/welcoming";
 import axios from "axios";
 import "./css/login.css";
 
-function LogIn() {
+function LogIn({setUser}) {
   const [email, setEmail] = useState("");
   const [passWord, setPassWord] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState();
   const [token, setToken] = useState("");
   const [isLogIn, setIsLogIn] = useState(false);
+  const[userInfo,setUserInfo]=useState()
+  console.log(userInfo);
   const navigate=useNavigate()
   return (
     <>
@@ -48,6 +50,9 @@ function LogIn() {
               setIsLogIn(localStorage.getItem('isLogIn'));
               localStorage.setItem('token',response.data.token)
               setToken(localStorage.getItem('token'));
+              setUser(response.data.userInformation.image)
+              localStorage.setItem('userInfo',JSON.stringify(response.data.userInformation))
+              setUserInfo(JSON.parse(localStorage.getItem('userInfo')))
               navigate("/home")
               
             })
