@@ -3,10 +3,14 @@
     flex-direction: row;
     gap: 10px;
 }
+
+
+
+/* home left screen content css */
 .information{
 width: 25%;
 background-color: #171C26;
-height: 800px;
+height: 600px;
 border-radius: 10px;
 display: flex;
 flex-direction: column;
@@ -44,13 +48,36 @@ align-items: center;
 background-color:#586673 ;
 
 }
+/* -------------------------------------------------------------- */
+
+/* home middle screen content css */
 .posts{
     width: 50%;
     background-color: #AEB5BF;
     border-radius: 10px;
 }
+/* -------------------------------------------------------------- */
+
+/* home Right screen content css */
 .users{
     width: 25%;
     background-color: #586673;
     border-radius: 10px;
+    display: flex;
+flex-direction: column;
+align-items: center;
 }
+.users button{
+    width: 35%;
+    background-color:#586673 ;
+    color: white;
+    border: none;
+    border-bottom: 2px solid white ;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.users button:hover{
+    background-color: #171C26;
+}
+/* -------------------------------------------------------------- */
