@@ -1,18 +1,24 @@
 .home{
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    /* gap: 10px; */
 }
 
-
+.searchBar{
+    background-color: #04BF8A;
+    border-bottom:"1px solid silver";
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+}
 
 /* home left screen content css */
 .information{
     width: 25%;
     
-background-color: #0D0D0D;
+background-color: #262626;
+border-right: 1px solid silver;
 
-border-radius: 10px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -26,10 +32,10 @@ align-items: center;
    
 }
 .information img{
-    margin-top: 30px;
-    border-radius: 50%;
-    max-width: 75%;
-    max-height: 75%;
+    /* margin-top: 30px; */
+    /* border-radius: 50%; */
+    max-width:100%;
+    max-height: 100%;
     /* width: 150px;
     height: 150px; */
     
@@ -55,7 +61,7 @@ background-color:#586673 ;
 .posts{
     width: 50%;
     background-color: white;
-    border-radius: 10px;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,12 +71,17 @@ background-color:#586673 ;
     background-color: white;
     border-radius: 10px;
     width: 100%;
-    
+    border-bottom:"1px solid silver";
     flex-direction: column;
     align-items:flex-start;
     
 }
 .search{
+    width: 50%;
+    justify-self: center;
+    align-self: center;
+
+    justify-self: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -88,7 +99,7 @@ background-color:#586673 ;
     width: 70px;
     height: 35px;
     color: white;
-    background-color: #171C26;
+    background-color: #262626;
     cursor: pointer;
     border-radius: 10px;
     color: white;
@@ -100,15 +111,17 @@ background-color:#586673 ;
     margin-top: 10px;
     margin-bottom: 10px;
     gap: 10px;
+    border-bottom:"1px solid silver"
 }
 .textArea textarea{
     border-radius: 10px;
+    
 }
 .textArea button{
     width: 70px;
     height: 35px;
     color: white;
-    background-color: #171C26;
+    background-color: #262626;
     cursor: pointer;
     border-radius: 10px;
     color: white;
@@ -118,15 +131,16 @@ background-color:#586673 ;
 /* home Right screen content css */
 .users{
     width: 25%;
-    background-color: white;
-    border-radius: 10px;
+    /* background-color: white; */
+    justify-self: right;
+   border-left: 1px solid silver;
     display: flex;
 flex-direction: column;
 align-items: center;
 }
 .users button{
     width: 35%;
-    background-color:#586673 ;
+    background-color:#04BF8A ;
     color: white;
     border: none;
     border-bottom: 2px solid white ;
@@ -136,5 +150,16 @@ align-items: center;
 
 .users button:hover{
     background-color: #171C26;
+}
+
+
+.follower{
+    width: 25%;
+    /* background-color: white; */
+    justify-self: right;
+   border-left: 1px solid silver;
+    display: flex;
+flex-direction: column;
+align-items: center
 }
 /* -------------------------------------------------------------- */

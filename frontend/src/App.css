@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .App {
  display: flex;
  flex-direction: column;
@@ -6,6 +12,6 @@
 }
 
 body{
-  background-color: #0D0D0D;
+  background-color: white;
 }
 
