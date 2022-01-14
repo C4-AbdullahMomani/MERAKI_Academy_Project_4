@@ -4,16 +4,27 @@ import HomePost from "./homePost";
 import "./css/Home.css";
 import axios from "axios";
 import UserInfo from "./userInformation";
-
+import {Search,Chat} from "@material-ui/icons"
 function Home({user,userInfo}) {
   const navigate = useNavigate();
  const [userImg,setUserImg]=useState(user)
  
  console.log(user);
-  return (
+  return (<><div className="searchBar"><div><Chat/></div><div className="search">
+  <input placeholder="Search" />
+  <Search/></div><div className="users">
+        <button
+          onClick={() => {
+            window.localStorage.clear();
+            navigate("/login")
+          }}
+        >
+          Logout
+        </button>{" "}
+      
+</div></div>
     <div className="home">
       {/* <h1 style={{color:"white"}}>hello to our page</h1> */}
-      <div></div>
       <div className="information">
         {" "}
         <div className="top">
@@ -25,17 +36,8 @@ function Home({user,userInfo}) {
         </div>
       </div>
       <div className="posts"> <HomePost/></div>
-      <div className="users">
-        <button
-          onClick={() => {
-            window.localStorage.clear();
-            navigate("/login")
-          }}
-        >
-          Logout
-        </button>{" "}
-      </div>
-    </div>
+      <div className="follower"></div>
+    </div></>
   );
 }
 function Navigate() {
