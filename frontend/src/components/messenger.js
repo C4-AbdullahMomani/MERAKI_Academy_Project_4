@@ -5,7 +5,9 @@ import Message from "./message";
 import "./css/messenger.css";
 import Friend from "./friend";
 import axios from "axios";
-function Messenger(own) {
+
+import { io } from "socket.io-client";
+function Messenger({ own }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogIn, setIsLogIn] = useState(localStorage.getItem("isLogIn"));
   const [user, setUser] = useState();
@@ -16,7 +18,42 @@ function Messenger(own) {
   const [currentChat, setCurrentChat] = useState();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [onLineUsers, setOnLineUsers] = useState([]);
+
+  const socket = useRef();
+  const navigate = useNavigate();
   const scrollRef = useRef();
+  useEffect(() => {
+    socket.current = io("ws://localhost:3002");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        message: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+  //// to prevent deliver the message to other member
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
+
+  //////////////////////
+
+  useEffect(() => {
+    socket.current.emit("addUser", userInfo._id);
+    socket.current.on("getUsers", (users) => {
+      setOnLineUsers(
+        users.map((user) => {
+          return user.userId;
+        })
+      );
+    });
+  }, [userInfo]);
+
   useEffect(() => {
     const getMessages = async () => {
       const res = await axios.get(
@@ -54,6 +91,14 @@ function Messenger(own) {
       sender: userInfo._id,
       conversationId: currentChat._id,
     });
+    const receiverId = currentChat.members.find(
+      (member) => member !== userInfo._id
+    );
+    socket.current.emit("sendMessage", {
+      senderId: userInfo._id,
+      receiverId,
+      text: newMessage,
+    });
     try {
       setNewMessage("");
       setMessages([...messages, res.data]);
@@ -66,7 +111,17 @@ function Messenger(own) {
   }, [messages]);
   return (
     <div className="message">
-      <div className="navBar"></div>
+      <div className="navBar">
+        <div className="navBarContainer">
+          <button
+            onClick={() => {
+              navigate("/home");
+            }}
+          >
+            Home
+          </button>
+        </div>
+      </div>
       <div className="container">
         <div className="sideBar">
           <div className="chatMenue">
@@ -111,7 +166,7 @@ function Messenger(own) {
         </div>
         <div className="right">
           <div className="member">
-            <Friend />
+            <Friend onLineUsers={onLineUsers} setCurrentChat={setCurrentChat} />
           </div>
         </div>
       </div>
