@@ -3,9 +3,9 @@ const userModel = require("../database/models/userSchema");
 const commentModel = require("../database/models/commentSchema");
 // this function to create new post
 const createNewPost = (req, res) => {
-  const { author, description, image, video, comments } = req.body;
+  const { description, image, video, comments } = req.body;
   const newPost = new postsSchema({
-    author,
+    author: req.token.userId,
     description,
     image,
     video,
@@ -34,7 +34,7 @@ const getAllPosts = (req, res) => {
   // const userId = req.token.userId;
   // userId: userId,
   postsSchema
-    .find({})
+    .find({}).sort({'createdAt': -1})
     .populate("author")
     .populate({ path: "comments", populate: "commenter" })
     .then((posts) => {
