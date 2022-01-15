@@ -7,9 +7,26 @@
 
 .navBar {
   background-color: #04bf8a;
-  height: 100px;
+  height: 70px;
 }
-
+.navBarContainer {
+  height: inherit;
+}
+.navBarContainer button {
+  background-color: #04bf8a;
+  height: 100%;
+  width: 15%;
+  margin-left: 20px;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 18px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.navBarContainer button:hover {
+  background-color: #65d6b6;
+}
 .container {
   height: calc(100vh-10070px);
   display: flex;
@@ -61,6 +78,7 @@
   height: 70px;
 }
 .chatButton {
+  margin-right: 15px;
   width: 80px;
   height: 50px;
   border: none;
