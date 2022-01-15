@@ -120,10 +120,7 @@ const getAllUsers = (req, res) => {
           message: "No Users Yet",
         });
       }
-      res.status(200).json({
-        success: true,
-        users: users,
-      });
+      res.status(200).json(users);
     })
     .catch((err) => {
       res.json(500).json({
