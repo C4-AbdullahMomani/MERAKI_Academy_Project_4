@@ -1,15 +1,16 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect,useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HomePost from "./homePost";
 import "./css/Home.css";
 import axios from "axios";
 import UserInfo from "./userInformation";
 import { Search, Chat } from "@material-ui/icons";
+
 function Home({ user, userInfo }) {
   const navigate = useNavigate();
   const [userImg, setUserImg] = useState(user);
 
-  console.log(user);
+  
   return (
     <>
       <div className="searchBar">
@@ -44,7 +45,7 @@ function Home({ user, userInfo }) {
           {" "}
           <div className="top">
             <img src="https://i.etsystatic.com/22479060/r/il/b8c9e7/2750779710/il_570xN.2750779710_t69p.jpg" />
-            :<img />
+            <img />
             <UserInfo userInfo={userInfo} />
           </div>
           <div>
@@ -55,7 +56,19 @@ function Home({ user, userInfo }) {
           {" "}
           <HomePost />
         </div>
-        <div className="follower"></div>
+        <div className="follower">
+          {" "}
+          <div className="chatFriend">
+            <div className="imgContainer">
+              <img
+                className="img"
+                src="https://thumbs.dreamstime.com/b/bobcat-kitten-15843174.jpg"
+              />
+            </div>
+            <div className="chatOnlineBadge"></div>
+            <span className="chatOnlineName">abdallah</span>
+          </div>
+        </div>
       </div>
     </>
   );
