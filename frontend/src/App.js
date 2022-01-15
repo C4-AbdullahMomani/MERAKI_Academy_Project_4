@@ -11,6 +11,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogIn, setIsLogIn] = useState(localStorage.getItem("isLogIn"));
   const [user, setUser] = useState();
+
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
