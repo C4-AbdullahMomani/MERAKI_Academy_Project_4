@@ -26,10 +26,7 @@ const getConversationByUserId = (req, res) => {
   conversationModel
     .find({ members: { $in: [userId] } })
     .then((conversation) => {
-      res.status(200).json({
-        success: true,
-        conversation: conversation,
-      });
+      res.status(200).json(conversation);
     })
     .catch((err) => {
       res.status(500).json(err);
