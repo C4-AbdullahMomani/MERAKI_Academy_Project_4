@@ -6,12 +6,14 @@ import Welcome from "./components/welcoming";
 import LogIn from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
-
+import Messenger from "./components/messenger";
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogIn, setIsLogIn] = useState(localStorage.getItem("isLogIn"));
-  const [user,setUser]=useState()
-  const[userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
+  const [user, setUser] = useState();
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
   console.log(userInfo);
   console.log(user);
   console.log(token, isLogIn);
@@ -19,12 +21,12 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Welcome />} />
-        <Route path="/home" element={<Home user={user} userInfo={userInfo}/>} />
-        
         <Route
-          path="/login"
-          element={<LogIn  setUser={setUser} />}
+          path="/home"
+          element={<Home user={user} userInfo={userInfo} />}
         />
+        <Route path="/messenger" element={<Messenger />} />
+        <Route path="/login" element={<LogIn setUser={setUser} />} />
         <Route path="/users" element={<Register />} />
       </Routes>
     </div>
