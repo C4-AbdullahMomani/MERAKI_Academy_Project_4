@@ -13,12 +13,13 @@ function LogIn({setUser}) {
   const [isLogIn, setIsLogIn] = useState(false);
   const[userInfo,setUserInfo]=useState()
   console.log(userInfo);
-  const navigate=useNavigate()
+  const navigate=useNavigate() 
   return (
     <>
       <div className="login">
+      
         {/* <Navigate/> */}
-        <div style={{ height: "175px" }}></div>
+        <div style={{ height: "175px" ,backgroundImage:"https://upf-web.com/wp-content/uploads/2019/07/Social-Networking.png"}}></div>
         <div>
           <h2 style={{ color: "white", textDecoration: "underLine" }}>Login</h2>
           <input type={"email"}
