@@ -7,6 +7,7 @@ function Welcome() {
   return (
     <div className="welcome">
       <Navigate />
+      <img src="https://upf-web.com/wp-content/uploads/2019/07/Social-Networking.png"/>
       <div> </div>
     </div>
   );
