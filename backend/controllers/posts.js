@@ -93,12 +93,12 @@ const getAllPostsByAuthorId = (req, res) => {
 // this function to update post by author Id
 
 const updatePostByAuthorId = (req, res) => {
-  userId = req.params.id;
+  // userId = req.params.id;
 
   const { description, image, video } = req.body;
   postsSchema
     .findOneAndUpdate(
-      { author: userId },
+      { _id: req.params.id },
       { $set: { description, image, video } },
       { new: true }
     )
