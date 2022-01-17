@@ -52,10 +52,11 @@ const createNewUser = (req, res) => {
 };
 
 const getUserByFirstName = (req, res) => {
+ 
   const firstName = req.params.firstName;
   console.log(firstName);
   userModel
-    .find({ firstName: firstName })
+    .find({ firstName: {$regex: "^"} }).sort({firstName:1})
     .populate("role")
     .then((result) => {
       if (result.length) {
