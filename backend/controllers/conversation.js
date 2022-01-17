@@ -33,7 +33,21 @@ const getConversationByUserId = (req, res) => {
     });
 };
 
+const getConversationByTowId = (req, res) => {
+  conversationModel
+    .findOne({
+      members: { $all: [req.params.firstId, req.params.secondId] },
+    })
+    .then((conversation) => {
+      res.status(200).json(conversation);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+};
+
 module.exports = {
   createNewConversation,
   getConversationByUserId,
+  getConversationByTowId,
 };
