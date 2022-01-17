@@ -24,6 +24,8 @@ function Messenger({ own }) {
   const socket = useRef();
   const navigate = useNavigate();
   const scrollRef = useRef();
+
+  /// arrived the messages from socket io server
   useEffect(() => {
     socket.current = io("ws://localhost:3002");
     socket.current.on("getMessage", (data) => {
@@ -54,6 +56,7 @@ function Messenger({ own }) {
     });
   }, [userInfo]);
 
+  ///// fetch all messages 
   useEffect(() => {
     const getMessages = async () => {
       const res = await axios.get(
@@ -94,6 +97,8 @@ function Messenger({ own }) {
     const receiverId = currentChat.members.find(
       (member) => member !== userInfo._id
     );
+
+    ////take the message and send to socket server
     socket.current.emit("sendMessage", {
       senderId: userInfo._id,
       receiverId,
