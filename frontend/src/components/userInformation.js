@@ -16,6 +16,7 @@ function UserInfo({userInfo}) {
   console.log(token, isLogIn);
   return (
     <div className="">
+      <img src={userInfo.image} />
       <div style={{color:"white",marginTop:"15px",marginBottom:"15px"}}>{user?`${user.firstName} ${user.lastName}`:undefined}</div>
     </div>
   );
