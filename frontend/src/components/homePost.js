@@ -4,7 +4,16 @@ import axios from "axios";
 import "./css/Home.css";
 import { format } from "timeago.js";
 import UserInfo from "./userInformation";
-import { Search, Send, Comment, ThumbUp, PostAdd } from "@material-ui/icons";
+import {
+  Search,
+  Send,
+  Comment,
+  ThumbUp,
+  PostAdd,
+  Edit,
+  DeleteForever,
+  Check
+} from "@material-ui/icons";
 
 function HomePost() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -18,6 +27,10 @@ function HomePost() {
   const [show, setIsShow] = useState(false);
   const [post, setPost] = useState();
   const [message, setMessage] = useState("");
+  const [commentBox, setCommentBox] = useState(false);
+  const [updateBox, setUpdateBox] = useState(false);
+  const [postId, setPostId] = useState(false);
+  const [description,setDescription]=useState("")
   const allPosts =
     posts &&
     posts.map((post, index) => {
@@ -34,37 +47,78 @@ function HomePost() {
             }}
           >
             {post.author && post.author._id === userInfo._id ? (
-              <select
-                style={{
-                  width: "20px",
-                  alignSelf: "flex-end",
-                  justifySelf: "flex-end",
-                }}
-              >
-                <option>Update</option>
-                <option>Delete</option>
-              </select>
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "20px",
+                    alignSelf: "flex-end",
+                    marginRight: "30px",
+                    marginTop:"15px",
+                    cursor:"pointer"
+                  }}
+                ><div></div>
+                  <Edit
+                    onClick={() => {
+                      setPostId(post._id);
+                      setUpdateBox(!updateBox);
+                    }}
+                  />
+                  <DeleteForever
+                    onClick={() => {
+                      axios
+                        .delete(`http://localhost:5000/posts/${post._id}`)
+                        .then((res) => {
+                          getAllPost()
+                          console.log(res);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }}
+                  />
+                </div>
+                
+                {updateBox&&postId===post._id && post.author._id === userInfo._id &&(
+                  <><div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+                    <form style={{alignSelf:"center"}}>
+                      <textarea placeholder="Post description here" value={description} onChange={(e)=>{setDescription(e.target.value)}}></textarea>
+                    </form><Check style={{alignSelf:"center",cursor:"pointer",width:"40px",fontSize:"50px"}} onClick={(e) => {
+                      e.preventDefault()
+                      axios.put(`http://localhost:5000/posts/${post._id}`,{ description}).then((res)=>{
+                        console.log(res);
+                        setDescription("")
+                        setUpdateBox(!updateBox);
+                        getAllPost()
+                      }).catch((err)=>{
+                        console.log(err);
+                      })
+                    }}/>
+                   </div>
+                  </>
+                )}
+              </>
             ) : (
               <p></p>
             )}
             <div
-              style={{
-                fontWeight: "bold",
-                color: "black",
-                paddingBottom: "10px",
-              }}
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png"
-                style={{
-                  borderRadius: "50%",
-                  height: "30px",
-                  paddingTop: "5px",
-                  width: "30px",
-                }}
-              />
-              {`${post.author.firstName} ${post.author.lastName}`}
-            </div>
+                  style={{
+                    fontWeight: "bold",
+                    color: "blue",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png"
+                    style={{
+                      borderRadius: "50%",
+                      height: "30px",
+                      paddingTop: "5px",
+                      width: "30px",
+                    }}
+                  />
+                  {`${post.author.firstName} ${post.author.lastName}`}
+                </div>
             <div style={{ fontSize: "10px", color: "black" }}>
               {format(post.createdAt)}
             </div>
@@ -96,13 +150,13 @@ function HomePost() {
                 post.comments.map((comment, index) => {
                   return (
                     <>
-                      <div>
-                        {show ? (
+                      <div id={`${index}`}>
+                        {commentBox && postId === post._id ? (
                           <>
                             <div
                               style={{
                                 fontWeight: "bold",
-                                color: "black",
+                                color: "blue",
                                 fontSize: "0.7em",
                               }}
                             >{`${comment.commenter.firstName} ${comment.commenter.lastName}`}</div>
@@ -137,11 +191,14 @@ function HomePost() {
               <div style={{ marginTop: "8px", fontSize: "0.8em" }}>
                 {post.likes}likes
               </div>
+
               <div style={{ marginTop: "5px" }}>
                 <ThumbUp />
                 <Comment
                   onClick={() => {
-                    show ? setIsShow(false) : setIsShow(true);
+                    setCommentBox(!commentBox);
+                    setPostId(post._id);
+                    // show ? setIsShow(false) : setIsShow(true);
                   }}
                 />
               </div>
