@@ -14,11 +14,11 @@ function UserInfo({userInfo}) {
   console.log(userInfo);
  console.log(user);
   console.log(token, isLogIn);
-  return (
-    <div className="">
-      <img style={{width: "100%", height: "50vh" }} src={userInfo.image} />
-      <div style={{color:"white",marginTop:"15px",marginBottom:"15px" ,textAlign:"center"}}>{user?`${user.firstName} ${user.lastName}`:undefined}</div>
-    </div>
+  return (<>
+    
+      <div><img style={{width: "100%", height: "150" ,objectFit: "cover",margin:"0px"}} src={userInfo.image} /></div>
+      <h1 style={{color:"white",marginTop:"20px",marginBottom:"20px" ,textAlign:"center"}}>{user?`${user.firstName} ${user.lastName}`:undefined}</h1>
+    </>
   );
 }
 
