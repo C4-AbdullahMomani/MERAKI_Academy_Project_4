@@ -1,0 +1,114 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.navBar{
+background-color: #04BF8A;
+height: 60px;
+}
+.navBar button {
+    background-color: #04bf8a;
+    height: 100%;
+    width: 15%;
+    margin-left: 20px;
+    border: none;
+    color: blue;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .navBar button:hover {
+    background-color: #65d6b6;
+  }
+.page{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.information{
+    align-items: center;
+width:30%;
+background-color: #262626;
+
+
+}
+
+.information img{
+    width:100%;
+    
+    
+}
+.information span{
+color:cornsilk;
+padding-top: 30px;
+font-weight: 500;
+font-size: 18px;
+}
+.posts{
+width: 50%;
+display: flex;
+flex-direction: column;
+align-items: flex-start; 
+
+}
+
+.post{
+    border-top: 1px solid rgb(139, 139, 139);
+    width: 90%;
+    align-self: left;
+    display: flex;
+    margin-top: 15px;
+    margin-left: 20px;
+   
+}
+.imgContainer{
+    position: relative;
+    align-self: center;
+    justify-self: flex-start;
+   
+}
+.img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid white
+}
+
+.name{
+    justify-self: center;
+    align-self: center;
+    padding-left: 10px;
+    color: blue;
+}
+
+.video{
+    width:80%;
+    margin-left: 60px;
+}
+.video video{
+    width: 100%;
+    height: 70%;
+}
+
+.text{
+    width: 70%;
+    margin-top: 20px;
+    margin-left:15%;
+    margin-bottom: 5%;
+
+}
+.photo{
+    width:80%;
+    margin-left: 60px;
+}
+.photo img{
+    width: 70%;
+    margin-top: 20px;
+    margin-left:15%;
+    margin-bottom: 5%;
+}
