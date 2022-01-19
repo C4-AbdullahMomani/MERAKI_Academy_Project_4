@@ -15,6 +15,7 @@ import {
   DeleteForever,
   Check,
   Publish,
+  Collections,
 } from "@material-ui/icons";
 
 function HomePost() {
@@ -33,56 +34,79 @@ function HomePost() {
   const [updateBox, setUpdateBox] = useState(false);
   const [postId, setPostId] = useState(false);
   const [description, setDescription] = useState("");
-
+  const [done, setDone] = useState(false);
   ////firebase
 
   const allInputs = { imgUrl: "" };
   const [imageAsFile, setImageAsFile] = useState("");
   const [imageAsUrl, setImageAsUrl] = useState(allInputs);
-  console.log(imageAsFile);
-
+  const [videoAsUrl, setVideoAsUrl] = useState(allInputs);
+  console.log(imageAsFile.type);
+  console.log(imageAsUrl);
+  console.log(videoAsUrl);
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];
     setImageAsFile((imageFile) => image);
   };
 
-  const handleFireBaseUpload = (e) => {
+  const handleFireBaseUpload = async (e) => {
     e.preventDefault();
     console.log("start of upload");
     // async magic goes here...
     if (imageAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
-    const uploadTask = storage
+    setDone(true);
+    const uploadTask = await storage
       .ref(`/images/${imageAsFile.name}`)
       .put(imageAsFile);
-    //initiates the firebase side uploading
-    uploadTask.on(
-      "state_changed",
-      (snapShot) => {
-        //takes a snap shot of the process as it is happening
-        console.log(snapShot);
-      },
-      (err) => {
-        //catches the errors
-        console.log(err);
-      },
-      () => {
-        // gets the functions from storage refences the image storage in firebase by the children
-        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-        storage
-          .ref("images")
-          .child(imageAsFile.name)
-          .getDownloadURL()
-          .then((fireBaseUrl) => {
-            setImageAsUrl((prevObject) => ({
-              ...prevObject,
-              imgUrl: fireBaseUrl,
-            }));
-            console.log(imageAsUrl);
-          });
-      }
-    );
+    console.log(uploadTask);
+    console.log(imageAsFile.type);
+
+    if (imageAsFile.type === "image/jpeg" || imageAsFile.type === "image/png") {
+      //initiates the firebase side uploading
+      // uploadTask.on(
+      //   "state_changed",
+      //   (snapShot) => {
+      //     //takes a snap shot of the process as it is happening
+      //     console.log(snapShot);
+      //   },
+      //   (err) => {
+      //     //catches the errors
+      //     console.log(err);
+      //   },
+      // () => {
+      // gets the functions from storage refences the image storage in firebase by the children
+      // gets the download url then sets the image from firebase as the value for the imgUrl key:
+      storage
+        .ref("images")
+        .child(imageAsFile.name)
+        .getDownloadURL()
+        .then((fireBaseUrl) => {
+          setImageAsUrl((prevObject) => ({
+            ...prevObject,
+            imgUrl: fireBaseUrl,
+          }));
+          setDone(false);
+          console.log(imageAsUrl);
+        });
+    } else {
+      storage
+        .ref("images")
+        .child(imageAsFile.name)
+        .getDownloadURL()
+        .then((fireBaseUrl) => {
+          setVideoAsUrl((prevObject) => ({
+            ...prevObject,
+            imgUrl: fireBaseUrl,
+          }));
+          setDone(false);
+          console.log(imageAsUrl);
+        });
+    }
+
+    // }
+    // );
   };
 
   ////////////////
@@ -116,12 +140,14 @@ function HomePost() {
                 >
                   <div></div>
                   <Edit
+                    style={{ color: "#262626", width: "20px" }}
                     onClick={() => {
                       setPostId(post._id);
                       setUpdateBox(!updateBox);
                     }}
                   />
                   <DeleteForever
+                    style={{ color: "#262626", width: "20px" }}
                     onClick={() => {
                       axios
                         .delete(`http://localhost:5000/posts/${post._id}`)
@@ -162,6 +188,7 @@ function HomePost() {
                             cursor: "pointer",
                             width: "40px",
                             fontSize: "50px",
+                            color: "#262626",
                           }}
                           onClick={(e) => {
                             e.preventDefault();
@@ -185,29 +212,49 @@ function HomePost() {
                   )}
               </>
             ) : (
-              <p></p>
+              ""
             )}
-            <div
-              style={{
-                fontWeight: "bold",
-                color: "blue",
-                paddingBottom: "10px",
-              }}
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png"
+            <div style={{ display: "flex" }}>
+              <div
                 style={{
-                  borderRadius: "50%",
-                  height: "30px",
-                  paddingTop: "5px",
-                  width: "30px",
+                  fontWeight: "bold",
+                  color: "blue",
+                  
                 }}
-              />
-              {`${post.author.firstName} ${post.author.lastName}`}
+              >
+                {post.image ? (
+                  <img
+                    src={post.author.image}
+                    style={{
+                      borderRadius: "50%",
+                      height: "40px",
+
+                      width: "40px",
+                    }}
+                  />
+                ) : (
+                  <img
+                    style={{
+                      borderRadius: "50%",
+                      height: "40px",
+
+                      width: "40px",
+                    }}
+                    src="https://image.shutterstock.com/image-vector/profile-icon-vector-isolated-on-260nw-1436148875.jpg"
+                  ></img>
+                )}
+              </div>
+              <h3 style={{ marginTop: "7px", marginLeft: "10px" }}>
+                {" "}
+                {`${post.author.firstName} ${post.author.lastName}`}
+              </h3>
             </div>
-            <div style={{ fontSize: "10px", color: "black" }}>
+            <span
+              style={{ fontSize: "10px", color: "black", marginLeft: "50px" }}
+            >
               {format(post.createdAt)}
-            </div>
+            </span>
+
             <div
               style={{
                 marginTop: "15px",
@@ -227,8 +274,16 @@ function HomePost() {
                 backgroundColor: "rgb(245,243,243)",
               }}
             >
+              {/* {(<video
+              style={{ width: "60%", height: "40vh" }}
+              src={`${post.video}`}
+            ></video>)||(<img
+              style={{ width: "60%", height: "40vh" }}
+              src={`${post.image}`}
+            ></img>)} */}
               {post.video ? (
                 <video
+                  controls
                   style={{ width: "60%", height: "40vh" }}
                   src={`${post.video}`}
                 ></video>
@@ -236,7 +291,14 @@ function HomePost() {
                 <p></p>
               )}
             </div>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDiriction: "raw",
+                justifyContent: "center",
+                backgroundColor: "rgb(245,243,243)",
+              }}
+            >
               {post.image ? (
                 <img
                   style={{ width: "60%", height: "40vh" }}
@@ -287,7 +349,8 @@ function HomePost() {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                borderTop: "1px solid silver",
+                justifyContent: "space-between",
+                marginTop: "10px",
               }}
             >
               <div style={{ marginTop: "8px", fontSize: "0.8em" }}>
@@ -296,6 +359,7 @@ function HomePost() {
 
               <div style={{ marginTop: "5px" }}>
                 <ThumbUp
+                  style={{ color: "#262626", width: "20px" }}
                   onClick={() => {
                     axios
                       .put(`http://localhost:5000/posts/${post._id}/likes`, {
@@ -311,6 +375,7 @@ function HomePost() {
                   }}
                 />
                 <Comment
+                  style={{ color: "#262626", width: "20px" }}
                   onClick={() => {
                     setCommentBox(!commentBox);
                     setPostId(post._id);
@@ -325,19 +390,25 @@ function HomePost() {
 
                   display: "felx",
                   flexDirection: "row",
-                  justifyContent: "right",
+                  justifyContent: "space-between",
                 }}
               >
                 <input
                   value={comment}
                   placeholder="comment"
-                  style={{ border: "none", width: "90%", height: "20px" }}
+                  style={{ border: "none", width: "90%", height: "80%" }}
                   onChange={(e) => {
                     setComment(e.target.value);
                   }}
                 />
                 <Send
-                  style={{ border: "none", justifySelf: "right" }}
+                  className="Send"
+                  style={{
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#262626",
+                    width: "10%",
+                  }}
                   onClick={() => {
                     axios
                       .post(
@@ -395,7 +466,11 @@ function HomePost() {
             setPost(e.target.value);
           }}
         ></textarea>
-        <Publish onClick={() => setUpdateBox(!updateBox)} />
+        {done && <div class="loader"></div>}
+        <Collections
+          style={{ border: "none", cursor: "pointer", color: "#262626" ,marginTop:"10px"}}
+          onClick={() => setUpdateBox(!updateBox)}
+        />
         {updateBox ? (
           <>
             <form onSubmit={handleFireBaseUpload}>
@@ -407,20 +482,24 @@ function HomePost() {
           ""
         )}
         <PostAdd
+          style={{ border: "none", cursor: "pointer", color: "#262626",marginTop:"10px" }}
           onClick={() => {
             axios
               .post(
                 "http://localhost:5000/posts",
                 {
                   description: post,
-                  video: imageAsUrl.imgUrl,
+                  video: videoAsUrl.imgUrl,
                   image: imageAsUrl.imgUrl,
                 },
                 { headers: { Authorization: ` Bearer ${token} ` } }
               )
               .then((response) => {
                 setPost("");
+                setUpdateBox(!updateBox)
                 setMessage("The post has been created successfully");
+                setImageAsUrl("");
+                setVideoAsUrl("");
                 setTimeout(() => {
                   setMessage("");
                 }, 3000);
@@ -437,6 +516,7 @@ function HomePost() {
           }}
         />
       </div>{" "}
+      <></>
       <p style={{ color: "blue" }}> {message ? message : ""}</p>
       {allPosts ? allPosts : ""}
     </div>
