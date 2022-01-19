@@ -5,65 +5,97 @@ import "./css/Home.css";
 import axios from "axios";
 import UserInfo from "./userInformation";
 import { Search, Chat } from "@material-ui/icons";
-
+import SearchFriend from "./search";
 import Users from "./users";
 import { storage } from "./fireBase";
-function Home({ user, userInfo }) {
+function Home({ user, userInfo, setProfileId }) {
   const navigate = useNavigate();
   const [userImg, setUserImg] = useState(user);
-  const allInputs = { imgUrl: "https://firebasestorage.googleapis.com/v0/b/social-51311.appspot.com/o/images%2FIMG_20211120_233658.jpg?alt=media&token=ed95d451-5e0e-4579-95e9-905f8058e09a" };
+  const [search, setSearch] = useState(null);
+  const [searchStatus, setSearchStatus] = useState("");
+ 
+  const allInputs = {
+    imgUrl:
+      "https://firebasestorage.googleapis.com/v0/b/social-51311.appspot.com/o/images%2FIMG_20211120_233658.jpg?alt=media&token=ed95d451-5e0e-4579-95e9-905f8058e09a",
+  };
   const [imageAsFile, setImageAsFile] = useState("");
   const [imageAsUrl, setImageAsUrl] = useState(allInputs);
   console.log(imageAsFile);
-  
+
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];
     setImageAsFile((imageFile) => image);
   };
-  
-  const handleFireBaseUpload = e => {
-    e.preventDefault()
-  console.log('start of upload')
-  // async magic goes here...
-  if(imageAsFile === '') {
-    console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
-  }
-  const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(imageAsFile)
-  //initiates the firebase side uploading 
-  uploadTask.on('state_changed', 
-  (snapShot) => {
-    //takes a snap shot of the process as it is happening
-    console.log(snapShot)
-  }, (err) => {
-    //catches the errors
-    console.log(err)
-  }, () => {
-    // gets the functions from storage refences the image storage in firebase by the children
-    // gets the download url then sets the image from firebase as the value for the imgUrl key:
-    storage.ref('images').child(imageAsFile.name).getDownloadURL()
-     .then(fireBaseUrl => {
-       setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
-       console.log(imageAsUrl);
-     })
-  })
-  }
+
+  const handleFireBaseUpload = (e) => {
+    e.preventDefault();
+    console.log("start of upload");
+    // async magic goes here...
+    if (imageAsFile === "") {
+      console.error(`not an image, the image file is a ${typeof imageAsFile}`);
+    }
+    const uploadTask = storage
+      .ref(`/images/${imageAsFile.name}`)
+      .put(imageAsFile);
+    //initiates the firebase side uploading
+    uploadTask.on(
+      "state_changed",
+      (snapShot) => {
+        //takes a snap shot of the process as it is happening
+        console.log(snapShot);
+      },
+      (err) => {
+        //catches the errors
+        console.log(err);
+      },
+      () => {
+        // gets the functions from storage refences the image storage in firebase by the children
+        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+        storage
+          .ref("images")
+          .child(imageAsFile.name)
+          .getDownloadURL()
+          .then((fireBaseUrl) => {
+            setImageAsUrl((prevObject) => ({
+              ...prevObject,
+              imgUrl: fireBaseUrl,
+            }));
+            console.log(imageAsUrl);
+          });
+      }
+    );
+  };
 
   return (
     <>
       <div className="searchBar">
-        <div style={{ textAlign: "left", marginLeft: "2%", marginTop: "1%" }}>
+        <h1 style={{ textAlign: "left", marginLeft: "2%", marginTop: "1%" ,color:"white"}}>
           Social
-        </div>
+        </h1>
         <div style={{ marginLeft: "2%", marginTop: "1%", cursor: "pointer" }}>
-          <Chat
+          <Chat style={{color:"white"}}
             onClick={() => {
               navigate("/messenger");
             }}
           />
         </div>
-        <div className="search">
-          <input placeholder="Search" />
-          <Search />
+        <div>
+          <div className="search">
+            <input
+              placeholder="Search"
+              onChange={(e) => {
+                setSearchStatus(e.target.value);
+                axios
+                  .get(`http://localhost:5000/users/${e.target.value}`)
+                  .then((res) => {
+                    console.log(res.data.user);
+                    setSearch(res.data.user);
+                  })
+                  .catch((err) => console.log(err));
+              }}
+            />
+            <Search />
+          </div>
         </div>
         <div className="users">
           <button
@@ -81,20 +113,28 @@ function Home({ user, userInfo }) {
         <div className="information">
           {" "}
           <div className="top">
-           
             <UserInfo userInfo={userInfo} />
             <form onSubmit={handleFireBaseUpload}>
               <input type="file" onChange={handleImageAsFile} />
               <button>upload</button>
             </form>
-            
           </div>
           <div>
-            <Navigate />
+            <Navigate setProfileId={setProfileId} />
           </div>
         </div>
         <div className="posts">
-          {" "}
+          {searchStatus ? (
+            <div style={{ width: "50%", backgroundColor: "rgb(245,243,243)" }}>
+              {search &&
+                search.map((user) => (
+                  <SearchFriend user={user} setProfileId={setProfileId} />
+                ))}
+            </div>
+          ) : (
+            ""
+          )}
+
           <HomePost />
         </div>
         <div className="follower">
@@ -105,7 +145,11 @@ function Home({ user, userInfo }) {
     </>
   );
 }
-function Navigate() {
+function Navigate({ setProfileId }) {
+  const navigate = useNavigate();
+const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
   return (
     <>
       <div className="informationNavigate">
@@ -113,7 +157,7 @@ function Navigate() {
         <div className="link">
           {" "}
           <Link
-            to="/login"
+            to="/home"
             style={{
               textDecoration: "none",
               color: "white",
@@ -124,10 +168,15 @@ function Navigate() {
             Home
           </Link>
         </div>
-        <div className="link">
+        <div className="link"  onClick={() => {
+              setProfileId(userInfo);
+              navigate("/profile")
+              
+            }}>
           <Link
-            to="/users"
+            to=""
             style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
+           
           >
             Profile
           </Link>
