@@ -5,8 +5,10 @@ import { Markunread } from "@material-ui/icons";
 function Users() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogIn, setIsLogIn] = useState(localStorage.getItem("isLogIn"));
+  const [friend,setFriend]=useState()
+  const [isfound,setIsFound]=useState()
   const navigate = useNavigate();
-
+console.log(friend);
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
@@ -26,15 +28,20 @@ function Users() {
   }, []);
 
   const checkConversation = async (userInfo, friend) => {
-    const res = axios.get(
+    const res = await axios.get(
       `http://localhost:5000/conversation/search/${userInfo._id}/${friend._id}`
     );
     try {
-      return res;
+      setIsFound(res.data)
+      console.log(res.data);
+      return res.data
     } catch (err) {
       console.log(err);
     }
   };
+  
+
+  
 
   return (
     <div className="">
@@ -45,22 +52,25 @@ function Users() {
               <div className="imgContainer">
                 <img
                   className="img"
-                  src="https://thumbs.dreamstime.com/b/bobcat-kitten-15843174.jpg"
+                  src={friend?friend.image:""}
                 />
               </div>
               <div className="chatOnlineBadge">
                 <Markunread
-                  onClick={async () => {
-                    const res = await axios.post(
+                  onClick={ async() => { 
+                   await checkConversation(userInfo,friend)?navigate("/messenger"):
+                    
+                      axios.post(
                       "http://localhost:5000/conversation",
                       { senderId: userInfo._id, recieverId: friend._id }
-                    );
-                    try {
+                    ).then((res)=>{
+                      setFriend(friend)
                       console.log(res);
                       navigate("/messenger");
-                    } catch (err) {
+                    })
+                    .catch( (err) =>{
                       console.log(err);
-                    }
+                    })
                   }}
                 />
               </div>

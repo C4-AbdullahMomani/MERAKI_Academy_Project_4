@@ -18,7 +18,7 @@ function SearchFriend({user,setProfileId}) {
   
 
   return (
-    <div className="">
+    <div className="container">
       
             <div className="chatFriend" onClick={()=>{
               

@@ -2,12 +2,13 @@ import React, { useState, createContext, useEffect } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LogIn from "./login";
 import "./css/welcome.css";
-
+import Texting from './css/Texting.gif'
 function Welcome() {
   return (
     <div className="welcome">
-      <Navigate />
-      <img src="https://upf-web.com/wp-content/uploads/2019/07/Social-Networking.png"/>
+      <div className="lefContainer"><div className="up"> <div style={{marginLeft:"125px",width:"121%",marginBottom:"20px"}}><h1 >Welcome To Sociality</h1></div></div><Navigate /></div>
+     
+      <img className="image" src={Texting}/>
       <div> </div>
     </div>
   );
@@ -17,18 +18,18 @@ function Navigate() {
     <>
       <div className="welcomeNavigate">
         {" "}
-        <Link
+        <div><Link
           to="/login"
-          style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
+          style={{  color: "white", fontSize: "30px" }}
         >
-          Login
-        </Link>
-        <Link
+         SignIn
+        </Link></div>
+        <div>  <Link
           to="/users"
-          style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
+          style={{   fontSize: "30px" , color: "black"}}
         >
-          Register
-        </Link>
+          SignUp
+        </Link></div>
       </div>
     </>
   );

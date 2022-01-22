@@ -35,6 +35,8 @@ function HomePost() {
   const [postId, setPostId] = useState(false);
   const [description, setDescription] = useState("");
   const [done, setDone] = useState(false);
+  const [press, setPress] = useState(false);
+  const [toPost, setToPost] = useState(false);
   ////firebase
 
   const allInputs = { imgUrl: "" };
@@ -126,34 +128,138 @@ function HomePost() {
               borderTop: "1px solid silver",
             }}
           >
-            {post.author && post.author._id === userInfo._id ? (
+            <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  marginTop: "15px",
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    color: "blue",
+                    justifySelf: "left",
+                  }}
+                >
+                  {post.image ? (
+                    <img
+                      src={post.author.image}
+                      style={{
+                        borderRadius: "50%",
+                        height: "40px",
+
+                        width: "40px",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      style={{
+                        borderRadius: "50%",
+                        height: "40px",
+
+                        width: "40px",
+                      }}
+                      src="https://image.shutterstock.com/image-vector/profile-icon-vector-isolated-on-260nw-1436148875.jpg"
+                    ></img>
+                  )}
+                </div>
+                <h3 style={{ marginTop: "7px", marginLeft: "10px" }}>
+                  {" "}
+                  {`${post.author.firstName} ${post.author.lastName}`}
+                </h3>
+              </div>
+
+              <div>
+                {" "}
+                {post.author && post.author._id === userInfo._id ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "20px",
+                        alignSelf: "flex-end",
+                        marginRight: "30px",
+                        marginTop: "15px",
+                        cursor: "pointer",
+                        justifySelf: "right",
+                      }}
+                    >
+                      <Edit
+                        style={{ color: "#262626", width: "20px" }}
+                        onClick={() => {
+                          setPress(true);
+                          setPostId(post._id);
+                          setUpdateBox(!updateBox);
+                        }}
+                      />
+                      <DeleteForever
+                        style={{ color: "#262626", width: "20px" }}
+                        onClick={() => {
+                          axios
+                            .delete(`http://localhost:5000/posts/${post._id}`)
+                            .then((res) => {
+                              getAllPost();
+                              console.log(res);
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+
+            <span
+              style={{ fontSize: "10px", color: "gray", marginLeft: "50px" }}
+            >
+              {format(post.createdAt)}
+            </span>
+            {updateBox &&
+            postId === post._id &&
+            post.author._id === userInfo._id &&
+            press ? (
               <>
                 <div
                   style={{
                     display: "flex",
-                    width: "20px",
-                    alignSelf: "flex-end",
-                    marginRight: "30px",
-                    marginTop: "15px",
-                    cursor: "pointer",
+                    width: "100%",
+                    border: "1px solid rgb(225,225,220)",
                   }}
                 >
-                  <div></div>
-                  <Edit
-                    style={{ color: "#262626", width: "20px" }}
-                    onClick={() => {
-                      setPostId(post._id);
-                      setUpdateBox(!updateBox);
+                  <textarea
+                    style={{ width: "90%", border: "none" }}
+                    defaultValue={post.description}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
                     }}
-                  />
-                  <DeleteForever
-                    style={{ color: "#262626", width: "20px" }}
-                    onClick={() => {
+                  ></textarea>
+                  <Check
+                    style={{
+                      alignSelf: "center",
+                      cursor: "pointer",
+                      width: "40px",
+                      fontSize: "50px",
+                      color: "#262626",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
                       axios
-                        .delete(`http://localhost:5000/posts/${post._id}`)
+                        .put(`http://localhost:5000/posts/${post._id}`, {
+                          description,
+                        })
                         .then((res) => {
-                          getAllPost();
                           console.log(res);
+                          setDescription("");
+                          setUpdateBox(!updateBox);
+                          getAllPost();
                         })
                         .catch((err) => {
                           console.log(err);
@@ -161,117 +267,27 @@ function HomePost() {
                     }}
                   />
                 </div>
-
-                {updateBox &&
-                  postId === post._id &&
-                  post.author._id === userInfo._id && (
-                    <>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <form style={{ alignSelf: "center" }}>
-                          <textarea
-                            placeholder="Post description here"
-                            value={description}
-                            onChange={(e) => {
-                              setDescription(e.target.value);
-                            }}
-                          ></textarea>
-                        </form>
-                        <Check
-                          style={{
-                            alignSelf: "center",
-                            cursor: "pointer",
-                            width: "40px",
-                            fontSize: "50px",
-                            color: "#262626",
-                          }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            axios
-                              .put(`http://localhost:5000/posts/${post._id}`, {
-                                description,
-                              })
-                              .then((res) => {
-                                console.log(res);
-                                setDescription("");
-                                setUpdateBox(!updateBox);
-                                getAllPost();
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                              });
-                          }}
-                        />
-                      </div>
-                    </>
-                  )}
               </>
             ) : (
-              ""
-            )}
-            <div style={{ display: "flex" }}>
               <div
                 style={{
-                  fontWeight: "bold",
-                  color: "blue",
-                  
+                  marginTop: "15px",
+                  marginLeft: "50px",
+                  marginBottom: "15px",
                 }}
               >
-                {post.image ? (
-                  <img
-                    src={post.author.image}
-                    style={{
-                      borderRadius: "50%",
-                      height: "40px",
-
-                      width: "40px",
-                    }}
-                  />
-                ) : (
-                  <img
-                    style={{
-                      borderRadius: "50%",
-                      height: "40px",
-
-                      width: "40px",
-                    }}
-                    src="https://image.shutterstock.com/image-vector/profile-icon-vector-isolated-on-260nw-1436148875.jpg"
-                  ></img>
-                )}
-              </div>
-              <h3 style={{ marginTop: "7px", marginLeft: "10px" }}>
                 {" "}
-                {`${post.author.firstName} ${post.author.lastName}`}
-              </h3>
-            </div>
-            <span
-              style={{ fontSize: "10px", color: "black", marginLeft: "50px" }}
-            >
-              {format(post.createdAt)}
-            </span>
+                {post.description}
+              </div>
+            )}
 
             <div
-              style={{
-                marginTop: "15px",
-                marginLeft: "15px",
-                marginBottom: "15px",
-              }}
-            >
-              {" "}
-              {post.description}
-            </div>
-
-            <div
+              className="postContainer"
               style={{
                 display: "flex",
                 flexDiriction: "raw",
                 justifyContent: "center",
-                backgroundColor: "rgb(245,243,243)",
+                backgroundColor: "rgb(241 241 241 / 29%)",
               }}
             >
               {/* {(<video
@@ -292,11 +308,12 @@ function HomePost() {
               )}
             </div>
             <div
+            id="post-container"
               style={{
                 display: "flex",
                 flexDiriction: "raw",
                 justifyContent: "center",
-                backgroundColor: "rgb(245,243,243)",
+                backgroundColor:"rgb(241 241 241 / 29%)"
               }}
             >
               {post.image ? (
@@ -352,42 +369,41 @@ function HomePost() {
                 justifyContent: "space-between",
                 marginTop: "10px",
               }}
-            >
+            ><div style={{ marginTop: "5px" }}>
+                
+            <Comment
+              style={{ color: "#262626", width: "20px" ,cursor:"pointer"}}
+              onClick={() => {
+                setCommentBox(!commentBox);
+                setPostId(post._id);
+                // show ? setIsShow(false) : setIsShow(true);
+              }}
+            />
+          </div><ThumbUp
+            style={{ color: "#262626", width: "20px" ,cursor:"pointer"}}
+            onClick={() => {
+              axios
+                .put(`http://localhost:5000/posts/${post._id}/likes`, {
+                  likes: post.likes + 1,
+                })
+                .then((res) => {
+                  console.log(res);
+                  getAllPost();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+          />
               <div style={{ marginTop: "8px", fontSize: "0.8em" }}>
-                {post.likes}likes
+                {post.likes}  likes
               </div>
 
-              <div style={{ marginTop: "5px" }}>
-                <ThumbUp
-                  style={{ color: "#262626", width: "20px" }}
-                  onClick={() => {
-                    axios
-                      .put(`http://localhost:5000/posts/${post._id}/likes`, {
-                        likes: post.likes + 1,
-                      })
-                      .then((res) => {
-                        console.log(res);
-                        getAllPost();
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  }}
-                />
-                <Comment
-                  style={{ color: "#262626", width: "20px" }}
-                  onClick={() => {
-                    setCommentBox(!commentBox);
-                    setPostId(post._id);
-                    // show ? setIsShow(false) : setIsShow(true);
-                  }}
-                />
-              </div>
+              
               <div
                 style={{
                   border: "1px solid silver",
                   width: "80%",
-
                   display: "felx",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -396,7 +412,7 @@ function HomePost() {
                 <input
                   value={comment}
                   placeholder="comment"
-                  style={{ border: "none", width: "90%", height: "80%" }}
+                  style={{ border: "none", width: "90%", height: "80%",paddingLeft:"15px" }}
                   onChange={(e) => {
                     setComment(e.target.value);
                   }}
@@ -468,10 +484,10 @@ function HomePost() {
         ></textarea>
         {done && <div class="loader"></div>}
         <Collections
-          style={{ border: "none", cursor: "pointer", color: "#262626" ,marginTop:"10px"}}
-          onClick={() => setUpdateBox(!updateBox)}
+          style={{ border: "none", cursor: "pointer", color: "#262626" }}
+          onClick={() => setToPost(!toPost)}
         />
-        {updateBox ? (
+        {toPost ? (
           <>
             <form onSubmit={handleFireBaseUpload}>
               <input type="file" onChange={handleImageAsFile} />
@@ -482,7 +498,7 @@ function HomePost() {
           ""
         )}
         <PostAdd
-          style={{ border: "none", cursor: "pointer", color: "#262626",marginTop:"10px" }}
+          style={{ border: "none", cursor: "pointer", color: "#262626" }}
           onClick={() => {
             axios
               .post(
@@ -496,7 +512,6 @@ function HomePost() {
               )
               .then((response) => {
                 setPost("");
-                setUpdateBox(!updateBox)
                 setMessage("The post has been created successfully");
                 setImageAsUrl("");
                 setVideoAsUrl("");

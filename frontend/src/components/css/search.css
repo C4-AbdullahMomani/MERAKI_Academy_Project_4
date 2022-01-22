@@ -4,9 +4,10 @@
     font-weight: 400;
 cursor: pointer;
 margin-top: 10px;
+margin-left: 20px;
 }
 .chatFriend:hover{
-    background-color: rgb(245, 243, 243);
+    background-color: rgb(243, 245, 243);
 }
 
 .imgContainer{

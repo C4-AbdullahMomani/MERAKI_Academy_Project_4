@@ -28,7 +28,7 @@ function Conversations({ conversation }) {
     <div className="conversation">
       <img
         className="conversationImg"
-        src="https://wallsdesk.com/wp-content/uploads/2018/03/lynx-Images.jpg"
+        src={user?user.image:"https://wallsdesk.com/wp-content/uploads/2018/03/lynx-Images.jpg"}
       />
       <span className="conversationName">
         {user ? `${user.firstName} ${user.lastName}` : ""}

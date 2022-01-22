@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     /* gap: 10px; */
-    color: blue;
+    color: rgb(0, 0, 105);
 }
 
 .searchBar{
@@ -15,11 +15,11 @@
 }
 
 /* home left screen content css */
-.information{
+#information{
     width: 25%;
     height:90vh;
-background-color: #262626;
-border-right: 1px solid silver;
+background-color: rgb(255, 255, 255);
+
 
 display: flex;
 flex-direction: column;
@@ -31,6 +31,7 @@ flex-direction: column;
 flex-direction: column;
 gap: 0;
 align-items: center;
+background-color: white;
 
 
     /* border-bottom: 2px solid #586673; */
@@ -57,25 +58,30 @@ align-items: center;
     border-bottom: 2px solid #586673;
 }
 .link:hover{
-background-color:#586673 ;
+background-color:#0c5eac ;
 
 }
 /* -------------------------------------------------------------- */
 
 /* home middle screen content css */
 .posts{
+    margin-top: 20px;
     width: 50%;
     background-color: white;
     overflow-y:scroll;
     
-    max-height: 90vh;
+    max-height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: blue;
+    color: rgb(0, 0, 105);
     
     
 }
+
+
+.posts::-webkit-scrollbar { width: 0 !important }
+
 .homePost{
     
     background-color: white;
@@ -109,6 +115,8 @@ background-color: white;
     width: 100%;
   height: 95%;
   border: none;
+  padding-left: 15px;
+  
   
   
 }
@@ -133,10 +141,10 @@ background-color: white;
 }
 .textArea textarea{
     width:85%;font-size: 17px;
-    border: 1px solid  rgb(245, 243, 243);
-background-color: rgb(245, 243, 243);
+    border: none;
+
 border-radius: 1px ;
-text-align: center;
+padding-left: 20px;
     
     
 }
@@ -158,7 +166,7 @@ text-align: center;
     justify-self: right;
    border-left: 1px solid silver;
     display: flex;
-flex-direction: column;
+flex-direction: row;
 align-items: center;
 }
 .users button{
@@ -219,7 +227,8 @@ margin-top: 10px;
     border-radius: 50%;
     display: flex;
     align-items: center;
-    
+    position: absolute;
+    right: 60px;
     
 }
 
@@ -230,8 +239,8 @@ margin-top: 10px;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
     border-top: 16px solid blue;
-    width: 50px;
-    height: 50px;
+    width:30px;
+    height:30px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
   }

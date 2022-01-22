@@ -37,7 +37,7 @@ console.log(friends);
           <div className="imgContainer">
             <img
               className="img"
-              src="https://thumbs.dreamstime.com/b/bobcat-kitten-15843174.jpg"
+              src={o?o.image:""}
             />
           </div>
           <div className="chatOnlineBadge"></div>

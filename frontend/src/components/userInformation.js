@@ -15,9 +15,10 @@ function UserInfo({userInfo}) {
  console.log(user);
   console.log(token, isLogIn);
   return (<>
-    
-      <div><img style={{width: "100%", height: "150" ,objectFit: "cover",margin:"0px"}} src={userInfo.image} /></div>
-      <h1 style={{color:"white",marginTop:"20px",marginBottom:"20px" ,textAlign:"center"}}>{user?`${user.firstName} ${user.lastName}`:undefined}</h1>
+    <div style={{display:"flex",marginRight:"100px",marginTop:"25px",marginLeft:"10px"}}>
+      <div style={{paddingBottom:"20px"}}><img style={{width: "40px", height: "40px" ,borderRadius:"50%",objectFit: "cover"}} src={userInfo.image} /></div>
+      <span style={{color:"white" ,height:"100%",marginLeft:"10px",marginTop:"7px"}}>{user?`${user.firstName} ${user.lastName}`:undefined}</span>
+      </div>
     </>
   );
 }

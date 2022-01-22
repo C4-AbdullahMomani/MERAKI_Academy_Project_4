@@ -5,7 +5,7 @@ import Message from "./message";
 import "./css/messenger.css";
 import Friend from "./friend";
 import axios from "axios";
-
+import  {FaSignOutAlt,FaLongArrowAltLeft } from "react-icons/fa";
 import { io } from "socket.io-client";
 function Messenger({ own }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -117,14 +117,10 @@ function Messenger({ own }) {
   return (
     <div className="message">
       <div className="navBar">
-        <div className="navBarContainer">
-          <button
-            onClick={() => {
+        <div className="navBarContainer"><FaLongArrowAltLeft className="navBarButton" onClick={() => {
               navigate("/home");
-            }}
-          >
-            Home
-          </button>
+            }}/>
+          
         </div>
       </div>
       <div className="container">

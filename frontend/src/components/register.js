@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./css/register.css";
 import { storage } from "./fireBase";
+import Texting from './css/Texting.gif'
+
 function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -64,10 +66,17 @@ function Register() {
 
   return (
     <>
-      <div className="Register">
-        <div>
-          <div style={{ height: "100px" }}></div>
-          <h2 style={{ color: "white", textDecoration: "underLine" }}>
+
+
+
+
+
+
+    {/*  -------------------------------------------------------------------------- */}
+      <div className="Register"><img className="image" src={Texting}/>
+        <div className="reg">
+          <div style={{ height: "50px" }}></div><form>
+          <h2 style={{ color: "blue", textDecoration: "underLine" }}>
             Register
           </h2>
           <input
@@ -77,8 +86,8 @@ function Register() {
               setFirstName(e.target.value);
             }}
           />
-          <br />
-          <br />
+          
+          
           <input
             type={"text"}
             placeholder="Last Name"
@@ -86,8 +95,8 @@ function Register() {
               setLastName(e.target.value);
             }}
           />
-          <br />
-          <br />
+          
+        
           <input
             type={"email"}
             placeholder="EMAIL"
@@ -95,8 +104,8 @@ function Register() {
               setEmail(e.target.value);
             }}
           />
-          <br />
-          <br />
+         
+        
           <input
             type={"password"}
             placeholder="Password"
@@ -104,8 +113,8 @@ function Register() {
               setPassWord(e.target.value);
             }}
           />
-          <br />
-          <br />
+         
+          
           <input
             type={"text"}
             placeholder="Country"
@@ -113,14 +122,14 @@ function Register() {
               setCountry(e.target.value);
             }}
           />
-          <br />
-          <br />
+         
+        
           <form onSubmit={handleFireBaseUpload}>
               <input type="file" onChange={handleImageAsFile} />
               <button>upload</button>
             </form>
-          <br />
-          <br />
+          
+        
           <button
             onClick={() => {
               setSuccess(true);
@@ -155,9 +164,10 @@ function Register() {
             }}
           >
             Register
-          </button>{" "}
+          </button>{" "}</form>
           <p style={{ color: "white" }}>{success ? message : ""}</p>
         </div>
+        <div></div>
       </div>
     </>
   );

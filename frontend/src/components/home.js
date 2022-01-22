@@ -4,16 +4,19 @@ import HomePost from "./homePost";
 import "./css/Home.css";
 import axios from "axios";
 import UserInfo from "./userInformation";
-import { Search, Chat } from "@material-ui/icons";
+import { Search, Chat, Logout } from "@material-ui/icons";
 import SearchFriend from "./search";
 import Users from "./users";
 import { storage } from "./fireBase";
+import {FaSignOutAlt,FaLongArrowAltLeft } from "react-icons/fa";
+import Postbro from "./css/Postbro.png"
+import logo from "./css/logo.png"
 function Home({ user, userInfo, setProfileId }) {
   const navigate = useNavigate();
   const [userImg, setUserImg] = useState(user);
   const [search, setSearch] = useState(null);
   const [searchStatus, setSearchStatus] = useState("");
- 
+
   const allInputs = {
     imgUrl:
       "https://firebasestorage.googleapis.com/v0/b/social-51311.appspot.com/o/images%2FIMG_20211120_233658.jpg?alt=media&token=ed95d451-5e0e-4579-95e9-905f8058e09a",
@@ -69,11 +72,19 @@ function Home({ user, userInfo, setProfileId }) {
   return (
     <>
       <div className="searchBar">
-        <h1 style={{ textAlign: "left", marginLeft: "2%", marginTop: "1%" ,color:"white"}}>
-          Social
+        <h1
+          style={{
+            textAlign: "left",
+            marginLeft: "2%",
+            marginTop: "1%",
+            color: "white",
+          }}
+        >
+          Sociality
         </h1>
-        <div style={{ marginLeft: "2%", marginTop: "1%", cursor: "pointer" }}>
-          <Chat style={{color:"white"}}
+        <div style={{ marginLeft: "2%", marginTop: "1.5%", cursor: "pointer" }}>
+          <Chat
+            style={{ color: "white" }}
             onClick={() => {
               navigate("/messenger");
             }}
@@ -82,7 +93,7 @@ function Home({ user, userInfo, setProfileId }) {
         <div>
           <div className="search">
             <input
-              placeholder="Search"
+              placeholder="Search for friends..."
               onChange={(e) => {
                 setSearchStatus(e.target.value);
                 axios
@@ -98,21 +109,21 @@ function Home({ user, userInfo, setProfileId }) {
           </div>
         </div>
         <div className="users">
-          <button
-            onClick={() => {
+          {" "}<div style={{cursor:"pointer"}} onClick={() => {
+            setProfileId(userInfo);
+            navigate("/profile");
+          }}>
+           <UserInfo userInfo={userInfo}  /></div><FaSignOutAlt style={{cursor:"pointer"}} onClick={() => {
               window.localStorage.clear();
               navigate("/");
-            }}
-          >
-            Logout
-          </button>{" "}
+            }}/>
         </div>
       </div>
       <div className="home">
         {/* <h1 style={{color:"white"}}>hello to our page</h1> */}
-        <div className="information">
-          {" "}
-          <div className="top">
+        <div id="information">
+         
+          {/* <div className="top">
             <UserInfo userInfo={userInfo} />
             <form onSubmit={handleFireBaseUpload}>
               <input type="file" onChange={handleImageAsFile} />
@@ -121,7 +132,7 @@ function Home({ user, userInfo, setProfileId }) {
           </div>
           <div>
             <Navigate setProfileId={setProfileId} />
-          </div>
+          </div> */}
         </div>
         <div className="posts">
           {searchStatus ? (
@@ -137,17 +148,23 @@ function Home({ user, userInfo, setProfileId }) {
 
           <HomePost />
         </div>
-        <div className="follower">
-          {" "}
-          <Users />
-        </div>
+        <div className="follower"> <div
+            style={{
+              marginTop: "20px",
+              textAlign: "center",
+              borderBottom: "1px solid rgb(245,243,243)",
+            }}
+          > 
+            <h2>Friends</h2>
+          </div>{" "}
+          <Users /></div>
       </div>
     </>
   );
 }
 function Navigate({ setProfileId }) {
   const navigate = useNavigate();
-const [userInfo, setUserInfo] = useState(
+  const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
   return (
@@ -168,15 +185,16 @@ const [userInfo, setUserInfo] = useState(
             Home
           </Link>
         </div>
-        <div className="link"  onClick={() => {
-              setProfileId(userInfo);
-              navigate("/profile")
-              
-            }}>
+        <div
+          className="link"
+          onClick={() => {
+            setProfileId(userInfo);
+            navigate("/profile");
+          }}
+        >
           <Link
             to=""
             style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
-           
           >
             Profile
           </Link>
