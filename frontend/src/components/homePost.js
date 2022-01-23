@@ -499,7 +499,7 @@ function HomePost() {
         )}
         <PostAdd
           style={{ border: "none", cursor: "pointer", color: "#262626" }}
-          onClick={() => {
+          onClick={() => {setToPost(!toPost)
             axios
               .post(
                 "http://localhost:5000/posts",

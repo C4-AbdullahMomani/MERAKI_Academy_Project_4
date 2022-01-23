@@ -65,7 +65,7 @@ const getAllPosts = (req, res) => {
 const getAllPostsByAuthorId = (req, res) => {
   let authorId = req.params.id;
   postsSchema
-    .find({ author: authorId })
+    .find({ author: authorId }).sort({'createdAt': -1})
     .populate("author", "firstName lastName")
     .then((posts) => {
       if (posts.length) {

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/friendsProfile.css";
+import { format } from "timeago.js";
 import  {FaSignOutAlt,FaLongArrowAltLeft } from "react-icons/fa";
 function FriendsProfile({ profileId }) {
   const [posts, setPosts] = useState("");
@@ -61,7 +62,7 @@ function FriendsProfile({ profileId }) {
                     {profileId
                       ? `${profileId.firstName} ${profileId.lastName}`
                       : ""}
-                  </span></div></div>
+                  </span><br/><span style={{color:"gray",fontSize:"10px"}}>{profileId?format(post.createdAt):""}</span></div></div>
                 </div>
                 <div className="text">
                   <span className="">{post ? post.description : ""}</span>
